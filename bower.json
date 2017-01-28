@@ -1,0 +1,27 @@
+{
+  "name": "weatherlogger-front",
+  "authors": [
+    "Geovanny Avelar <geovanny.avelar@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "materialize": ">=0.97.8",
+    "jquery": ">=1.7.1",
+    "angular": "1.6.0",
+    "angular-route": "1.6.0",
+    "angular-chart.js": ">=1.1.0",
+    "moment": ">=2.5.0",
+    "chart.js": ">=2.4.0"
+  }
+}

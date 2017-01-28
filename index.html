@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>WeatherLogger</title>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/components/css/materialize.min.css">
+    <script type="text/javascript" src="assets/components/js/angular.min.js"></script>
+    <script type="text/javascript" src="assets/components/js/angular-route.min.js"></script>
+    <script type="text/javascript" src="assets/components/js/angular-chart.min.js"></script>
+    <script type="text/javascript" src="app/js/angular-main.js"></script>
+    <script type="text/javascript" src="app/js/routes/weather-routes.js"></script>
+    <script type="text/javascript" src="app/js/controllers/weather-controller.js"></script>
+    <script type="text/javascript" src="assets/components/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/components/js/materialize.min.js"></script>
+    <script type="text/javascript" src="assets/components/js/Chart.min.js"></script>
+    <script type="text/javascript" src="assets/components/js/moment-with-locales.min.js"></script>
+  </head>
+
+  <body ng-app="weatherLogger">
+
+    <div class="row">
+        <div class="col s12">
+          <ul class="tabs tabs-fixed-width">
+            <li class="tab col s3"><a href="#!/temperature">Temperature</a></li>
+            <li class="tab col s3"><a href="#!/humidity">Humidity</a></li>
+            <li class="tab col s3"><a href="#!/dew_point">Dew point</a></li>
+          </ul>
+        </div>
+      </div>
+
+    <div class="row">
+      <ng-view></ng-view>
+    </div>
+  </body>
+
+</html>
