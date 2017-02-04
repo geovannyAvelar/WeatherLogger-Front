@@ -1,4 +1,4 @@
-# WeatherLogger-Front
+# WeatherLogger-Front [![Code Climate](https://codeclimate.com/github/geovannyAvelar/WeatherLogger-Front/badges/gpa.svg)](https://codeclimate.com/github/geovannyAvelar/WeatherLogger-Front) [![Issue Count](https://codeclimate.com/github/geovannyAvelar/WeatherLogger-Front/badges/issue_count.svg)](https://codeclimate.com/github/geovannyAvelar/WeatherLogger-Front)
 Weather Logger front-end with AngularJS
 
 ## Summary
