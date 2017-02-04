@@ -1,1 +1,2 @@
-var app = angular.module("weatherLogger", ['ngRoute']);
+var app = angular.module("weatherLogger", []);
+app.constant('BASE_URL', 'http://138.197.76.251:8080');

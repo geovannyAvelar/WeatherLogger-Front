@@ -1,0 +1,15 @@
+/* Temperature date label color */
+#tempChartDate label {
+  color: #ffa500;
+}
+
+/* Temeprature date label focus color */
+#tempChartDate:focus + label {
+  color: #ffa500;
+}
+
+/* Temperture date label focus color */
+#tempChartDate:focus {
+  border-bottom: 1px solid #ffa500;
+  box-shadow: 0 1px 0 0 #ffa500;
+}
