@@ -8,6 +8,7 @@
     <title>WeatherLogger</title>
     <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="assets/components/css/materialize.min.css">
+    <link rel="stylesheet" href="app/css/main.css">
     <link rel="stylesheet" href="app/css/input-colors.css">
     <link rel="stylesheet" href="app/css/preloader.css">
     <script type="text/javascript" src="assets/components/js/angular.min.js"></script>
@@ -53,6 +54,11 @@
               <input id="tempChartDate" type="date" ng-model="date"
                       ng-change="drawChart()" required="true"/>
             </div>
+
+            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
+                                             waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
           </div>
         </form>
       </div>
@@ -98,6 +104,11 @@
               <input id="humidityChartDate" type="date" ng-model="date"
                       ng-change="drawChart()" required="true"/>
             </div>
+
+            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
+                                             waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
           </div>
         </form>
       </div>
@@ -142,6 +153,11 @@
               <input id="dewPointChartDate" type="date" ng-model="date"
                       ng-change="drawChart()" required="true"/>
             </div>
+
+            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
+                                             waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
           </div>
         </form>
       </div>
