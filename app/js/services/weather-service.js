@@ -25,6 +25,18 @@ app.service('WeatherService', function($http, BASE_URL) {
     });
   };
 
+  weatherService.findLast = function() {
+    return $http({
+      method: "GET",
+      url: BASE_URL + "/weather/last"
+    })
+    .then(function success(response) {
+      return response.data;
+    }, function error() {
+      return {};
+    });
+  };
+
   return weatherService;
 
 });

@@ -17,6 +17,7 @@
     <script type="text/javascript" src="assets/components/js/Chart.min.js"></script>
     <script type="text/javascript" src="app/js/services/weather-service.js"></script>
     <script type="text/javascript" src="app/js/services/line-chart-service.js"></script>
+    <script type="text/javascript" src="app/js/controllers/general-controller.js"></script>
     <script type="text/javascript" src="app/js/controllers/temperature-controller.js"></script>
     <script type="text/javascript" src="app/js/controllers/humidity-controller.js"></script>
     <script type="text/javascript" src="app/js/controllers/dew-point-controller.js"></script>
@@ -31,17 +32,110 @@
       <div class="col s12">
         <ul class="tabs tabs-fixed-width">
           <li class="tab col s3">
-            <a class="active orange-text tab" data-color="orange" href="#temperature">
+            <a class="grey-text tab" data-color="grey" href="#general">
+              General
+            </a>
+          </li>
+
+          <li class="tab col s3">
+            <a class="orange-text tab" data-color="orange" href="#temperature">
               Temperature
             </a>
           </li>
+
           <li class="tab col s3">
-            <a class="blue-text tab" data-color="blue" href="#humidity">Humidity</a>
+            <a class="blue-text tab" data-color="blue" href="#humidity">
+              Humidity
+            </a>
           </li>
+
           <li class="tab col s3">
-            <a class="green-text tab" data-color="green" href="#dew_point">Dew point</a>
+            <a class="green-text tab" data-color="green" href="#dew_point">
+              Dew point
+            </a>
           </li>
         </ul>
+      </div>
+    </div>
+
+    <!-- GENERAL TAB CONTENT -->
+    <div id="general" ng-controller="generalController">
+      <div class="row">
+
+        <div ng-show="loading" class="preloader-wrapper small active generalLoader">
+          <div class="spinner-layer spinner-blue">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-red">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-yellow">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+
+          <div class="spinner-layer spinner-green">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m6 offset-m3">
+          <div class="card-panel grey lighten-4 clearfix generalCard">
+            <span class="black-text">
+              <div class="row">
+                <h4 class="left">Conditions now</h4>
+                <a ng-click="updateData()" class="refresh btn-floating btn-small waves-effect
+                                                 waves-light grey lighten-1 right">
+                  <i class="material-icons">refresh</i>
+                </a>
+              </div>
+
+              <div class="row" ng-show="!loading">
+                <span class="col m4 s12 orange-text lighten-1">
+                  <span>Temperature</span>
+                  <h4>{{data.temperature}} Cº</h4>
+                </span>
+
+                <span class="col m4 s12 blue-text lighten-1">
+                  <span>Humidity</span>
+                  <h4>{{data.relativeHumidity}} %</h4>
+                </span>
+
+                <span class="col m4 s12 green-text lighten-1">
+                  <span>Dew point</span>
+                  <h4>{{data.dewPoint}} Cº</h4>
+                </span>
+
+                <span>Updated {{lastUpdate}}</span>
+              </div>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 

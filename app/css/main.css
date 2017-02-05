@@ -1,3 +1,15 @@
 .refresh {
-  margin-right: 1em; 
+  margin-right: 1em;
+}
+
+.generalCard {
+  min-height: 18em !important;
+}
+
+.generalLoader {
+  margin-top: 15em !important;
+}
+
+.clearfix {
+  overflow: auto;
 }
