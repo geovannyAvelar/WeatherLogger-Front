@@ -13,3 +13,19 @@
   border-bottom: 1px solid #ffa500;
   box-shadow: 0 1px 0 0 #ffa500;
 }
+
+/* Humidity date label color */
+#humidityChartDate label {
+  color: #002eff;
+}
+
+/* Humidity date label focus color */
+#humidityChartDate:focus + label {
+  color: #002eff;
+}
+
+/* Humidity date label focus color */
+#humidityChartDate:focus {
+  border-bottom: 1px solid #002eff;
+  box-shadow: 0 1px 0 0 #002eff;
+}

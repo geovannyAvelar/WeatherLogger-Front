@@ -9,7 +9,7 @@ app.service('WeatherService', function($http, BASE_URL) {
     .then(function success(response) {
       return response.data;
     }, function error() {
-      return [];
+      return {};
     });
   };
 
@@ -21,7 +21,7 @@ app.service('WeatherService', function($http, BASE_URL) {
     .then(function success(response) {
       return response.data;
     }, function error() {
-      return [];
+      return {};
     });
   };
 

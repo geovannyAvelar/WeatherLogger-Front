@@ -10,16 +10,18 @@
     <link rel="stylesheet" href="assets/components/css/materialize.min.css">
     <link rel="stylesheet" href="app/css/input-colors.css">
     <link rel="stylesheet" href="app/css/preloader.css">
-    <link rel="stylesheet" href="app/css/tabs.css">
     <script type="text/javascript" src="assets/components/js/angular.min.js"></script>
     <script type="text/javascript" src="app/js/angular-main.js"></script>
     <script type="text/javascript" src="assets/components/js/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="assets/components/js/Chart.min.js"></script>
     <script type="text/javascript" src="app/js/services/weather-service.js"></script>
-    <script type="text/javascript" src="app/js/services/temperature-chart-service.js"></script>
-    <script type="text/javascript" src="app/js/controllers/temperature-chart-controller.js"></script>
+    <script type="text/javascript" src="app/js/services/line-chart-service.js"></script>
+    <script type="text/javascript" src="app/js/controllers/temperature-controller.js"></script>
+    <script type="text/javascript" src="app/js/controllers/humidity-controller.js"></script>
+    <script type="text/javascript" src="app/js/controllers/dew-point-controller.js"></script>
     <script type="text/javascript" src="assets/components/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/components/js/materialize.min.js"></script>
+    <script type="text/javascript" src="app/js/tabs.js"></script>
   </head>
 
   <body ng-app="weatherLogger">
@@ -27,18 +29,27 @@
     <div class="row">
       <div class="col s12">
         <ul class="tabs tabs-fixed-width">
-          <li class="tab col s3"><a class="active blue-text" href="#temperature">Temperature</a></li>
-          <li class="tab col s3"><a class="blue-text" href="#humidity">Humidity</a></li>
-          <li class="tab col s3"><a class="blue-text" href="#dew_point">Dew point</a></li>
+          <li class="tab col s3">
+            <a class="active orange-text tab" data-color="orange" href="#temperature">
+              Temperature
+            </a>
+          </li>
+          <li class="tab col s3">
+            <a class="blue-text tab" data-color="blue" href="#humidity">Humidity</a>
+          </li>
+          <li class="tab col s3">
+            <a class="green-text tab" data-color="green" href="#dew_point">Dew point</a>
+          </li>
         </ul>
       </div>
     </div>
 
-    <div id="temperature" ng-controller="temperatureChartController">
-      <div class="row">
+    <!-- TEMPERATURE TAB CONTENT -->
+    <div id="temperature" ng-controller="temperatureController">
+      <div>
         <form class="col s12">
           <div class="row">
-            <div class="input-field col s8 m2 offset-m5">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
               <input id="tempChartDate" type="date" ng-model="date"
                       ng-change="drawChart()" required="true"/>
             </div>
@@ -58,15 +69,112 @@
         </div>
       </div>
 
-      <canvas id="tempChart" height="100" ng-show="!loading"></canvas>
+      <div ng-show="!loading && !empty">
+        <div class="center-align">
+          <div class="chip">
+            MIN: {{minimumTemperature}} Cº
+          </div>
+
+          <div class="chip">
+            MAX: {{maximumTemperature}} Cº
+          </div>
+        </div>
+
+        <canvas id="tempChart" height="100"></canvas>
+      </div>
+
+      <div class="center-align" ng-if="!loading && empty">
+        <p class="text-grey lighten-1">There is no data to draw a chart</p>
+      </div>
 
     </div>
 
-    <div id="humidity">
+    <!-- HUMIDITY TAB CONTENT -->
+    <div id="humidity" ng-controller="humidityController">
+      <div>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
+              <input id="humidityChartDate" type="date" ng-model="date"
+                      ng-change="drawChart()" required="true"/>
+            </div>
+          </div>
+        </form>
+      </div>
 
+      <div class="preloader-wrapper active" ng-if="loading">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="!loading && !empty">
+        <div class="center-align">
+          <div class="chip">
+            MIN: {{minimumHumidity}} %
+          </div>
+
+          <div class="chip">
+            MAX: {{maximumHumidity}} %
+          </div>
+        </div>
+
+        <canvas id="humidityChart" height="100"></canvas>
+      </div>
+
+      <div class="center-align" ng-if="!loading && empty">
+        <p class="text-grey lighten-1">There is no data to draw a chart</p>
+      </div>
     </div>
 
-    <div id="dew_point">
+    <!-- DEW POINT TAB CONTENT -->
+    <div id="dew_point" ng-controller="dewPointController">
+      <div>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
+              <input id="dewPointChartDate" type="date" ng-model="date"
+                      ng-change="drawChart()" required="true"/>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="preloader-wrapper active" ng-if="loading">
+        <div class="spinner-layer spinner-green-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-show="!loading && !empty">
+        <div class="center-align">
+          <div class="chip">
+            MIN: {{minimumDewPoint}} Cº
+          </div>
+
+          <div class="chip">
+            MAX: {{maximumDewPoint}} Cº
+          </div>
+        </div>
+
+        <canvas id="dewPointChart" height="100"></canvas>
+
+        <div class="center-align" ng-if="!loading && empty">
+          <p class="text-grey lighten-1">There is no data to draw a chart</p>
+        </div>
+      </div>
 
     </div>
 
