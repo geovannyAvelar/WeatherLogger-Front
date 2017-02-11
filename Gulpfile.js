@@ -5,11 +5,13 @@ var jsFilesToMove = [
   'bower_components/jquery/dist/jquery.min.js',
   'bower_components/chart.js/dist/Chart.min.js',
   'bower_components/materialize/dist/js/materialize.min.js',
-  'bower_components/moment/min/moment-with-locales.min.js'
+  'bower_components/moment/min/moment-with-locales.min.js',
+  'bower_components/angular-pickadate/dist/angular-pickadate.min.js'
 ];
 
 var cssFilesToMove = [
-  'bower_components/materialize/dist/css/materialize.min.css'
+  'bower_components/materialize/dist/css/materialize.min.css',
+  'bower_components/angular-pickadate/dist/angular-pickadate.css'
 ];
 
 var fontsFilesToMove = [

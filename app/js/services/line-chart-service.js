@@ -1,3 +1,4 @@
+//TODO This service must be refactored. You can use a Chart.JS Angular directive
 app.service('LineChartService', function() {
   var temperatureChartService = {};
   var contexts = {

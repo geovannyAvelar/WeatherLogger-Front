@@ -8,6 +8,7 @@
     <title>WeatherLogger</title>
     <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="assets/components/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/components/css/angular-pickadate.css">
     <link rel="stylesheet" href="app/css/main.css">
     <link rel="stylesheet" href="app/css/input-colors.css">
     <link rel="stylesheet" href="app/css/preloader.css">
@@ -17,16 +18,14 @@
     <script type="text/javascript" src="assets/components/js/Chart.min.js"></script>
     <script type="text/javascript" src="app/js/services/weather-service.js"></script>
     <script type="text/javascript" src="app/js/services/line-chart-service.js"></script>
-    <script type="text/javascript" src="app/js/controllers/general-controller.js"></script>
-    <script type="text/javascript" src="app/js/controllers/temperature-controller.js"></script>
-    <script type="text/javascript" src="app/js/controllers/humidity-controller.js"></script>
-    <script type="text/javascript" src="app/js/controllers/dew-point-controller.js"></script>
+    <script type="text/javascript" src="app/js/controllers/weather-controller.js"></script>
     <script type="text/javascript" src="assets/components/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/components/js/materialize.min.js"></script>
     <script type="text/javascript" src="app/js/tabs.js"></script>
+    <script type="text/javascript" src="assets/components/js/angular-pickadate.min.js"></script>
   </head>
 
-  <body ng-app="weatherLogger">
+  <body ng-app="weatherLogger" ng-controller="weatherController">
 
     <div class="row">
       <div class="col s12">
@@ -59,41 +58,12 @@
     </div>
 
     <!-- GENERAL TAB CONTENT -->
-    <div id="general" ng-controller="generalController">
+    <div id="general">
       <div class="row">
 
-        <div ng-show="loading" class="preloader-wrapper small active generalLoader">
-          <div class="spinner-layer spinner-blue">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-red">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-yellow">
-            <div class="circle-clipper left">
-              <div class="circle"></div>
-            </div><div class="gap-patch">
-              <div class="circle"></div>
-            </div><div class="circle-clipper right">
-              <div class="circle"></div>
-            </div>
-          </div>
-
-          <div class="spinner-layer spinner-green">
+        <!-- GENERAL SPINNER -->
+        <div class="preloader-wrapper active" ng-if="loading">
+          <div class="spinner-layer spinner-red-only">
             <div class="circle-clipper left">
               <div class="circle"></div>
             </div><div class="gap-patch">
@@ -104,13 +74,13 @@
           </div>
         </div>
 
-        <div class="col s12 m6 offset-m3">
+        <div ng-hide="loading" class="col s12 m6 offset-m3">
           <div class="card-panel grey lighten-4 clearfix generalCard">
             <span class="black-text">
               <div class="row">
                 <h4 class="left">Conditions now</h4>
-                <a ng-click="updateData()" class="refresh btn-floating btn-small waves-effect
-                                                 waves-light grey lighten-1 right">
+                <a ng-click="updateGeneralData()" class="refresh btn-floating btn-small waves-effect
+                                                        waves-light grey lighten-1 right">
                   <i class="material-icons">refresh</i>
                 </a>
               </div>
@@ -140,23 +110,9 @@
     </div>
 
     <!-- TEMPERATURE TAB CONTENT -->
-    <div id="temperature" ng-controller="temperatureController">
-      <div>
-        <form class="col s12">
-          <div class="row">
-            <div class="input-field col s8 m2 offset-m5 offset-s2">
-              <input id="tempChartDate" type="date" ng-model="date"
-                      ng-change="drawChart()" required="true"/>
-            </div>
+    <div id="temperature">
 
-            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
-                                             waves-light grey lighten-1 right">
-              <i class="material-icons">refresh</i>
-            </a>
-          </div>
-        </form>
-      </div>
-
+      <!-- TEMPERATURE CHART SPINNER -->
       <div class="preloader-wrapper active" ng-if="loading">
         <div class="spinner-layer spinner-red-only">
           <div class="circle-clipper left">
@@ -169,19 +125,64 @@
         </div>
       </div>
 
-      <div ng-show="!loading && !empty">
-        <div class="center-align">
-          <div class="chip">
-            MIN: {{minimumTemperature}} Cº
-          </div>
+      <div class="row" ng-hide="loading">
 
-          <div class="chip">
-            MAX: {{maximumTemperature}} Cº
+        <h5 class="center-align">{{ tempChartDay }}</h5>
+
+        <!-- TEMPERATURE CHART FORM ON DESKTOP -->
+        <form class="col s5 offset-s1 hide-on-med-and-down">
+          <div class="row">
+            <div class="input-field">
+              <div pickadate format="yyyy-mm-dd"
+                    ng-model="tempDate"  ng-change="drawTemperatureChart()" max-date="maxDate"></div>
+            </div>
+          </div>
+        </form>
+
+        <!-- TEMPERATURE CHART FORM ON MOBILE -->
+        <form class="col s12 hide-on-large-only">
+          <div class="row">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
+              <input id="temperatureChartDate" type="date" ng-model="tempDate"
+                      ng-change="drawDewPointChart()" class="datepicker" required="true"/>
+            </div>
+
+            <a ng-click="drawDewPointChart()" class="refresh btn-floating btn-small waves-effect
+                                                      waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
+          </div>
+        </form>
+
+        <div ng-hide="loading" class="col s5 hide-on-small-only">
+          <div class="card-panel grey lighten-4 clearfix generalCard">
+            <span class="black-text" ng-show="!loading && !empty">
+              <div class="row">
+                <span class="col m4 s12 red-text center-align lighten-1">
+                  <span>Maximum</span>
+                  <h4>{{maximumTemperature}} Cº</h4>
+                </span>
+
+                <span class="col m4 s12 blue-text center-align lighten-1">
+                  <span>Minimum</span>
+                  <h4>{{minimumTemperature}} Cº</h4>
+                </span>
+
+                <span class="col m4 s12 green-text center-align lighten-1">
+                  <span>Average</span>
+                  <h4>{{averageTemperature | number: 2}} Cº</h4>
+                </span>
+              </div>
+            </span>
+
+            <span class="center-align" ng-show="empty">
+              There's no data to show
+            </span>
           </div>
         </div>
-
-        <canvas id="tempChart" height="100"></canvas>
       </div>
+
+      <canvas id="tempChart" ng-show="!loading && !empty" height="100"></canvas>
 
       <div class="center-align" ng-if="!loading && empty">
         <p class="text-grey lighten-1">There is no data to draw a chart</p>
@@ -190,23 +191,9 @@
     </div>
 
     <!-- HUMIDITY TAB CONTENT -->
-    <div id="humidity" ng-controller="humidityController">
-      <div>
-        <form class="col s12">
-          <div class="row">
-            <div class="input-field col s8 m2 offset-m5 offset-s2">
-              <input id="humidityChartDate" type="date" ng-model="date"
-                      ng-change="drawChart()" required="true"/>
-            </div>
+    <div id="humidity">
 
-            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
-                                             waves-light grey lighten-1 right">
-              <i class="material-icons">refresh</i>
-            </a>
-          </div>
-        </form>
-      </div>
-
+      <!-- HUMIDITY CHART SPINNER -->
       <div class="preloader-wrapper active" ng-if="loading">
         <div class="spinner-layer spinner-blue-only">
           <div class="circle-clipper left">
@@ -219,19 +206,60 @@
         </div>
       </div>
 
-      <div ng-show="!loading && !empty">
-        <div class="center-align">
-          <div class="chip">
-            MIN: {{minimumHumidity}} %
-          </div>
+      <div class="row" ng-show="!loading && !empty">
 
-          <div class="chip">
-            MAX: {{maximumHumidity}} %
+        <h5 class="center-align">{{ humidityChartDay }}</h5>
+
+        <!-- HUMIDITY CHART FORM ON DESKTOP -->
+        <form class="col s5 offset-s1 hide-on-med-and-down">
+          <div class="row">
+            <div class="input-field">
+              <div pickadate format="yyyy-mm-dd"
+                    ng-model="humidityDate" ng-change="drawHumidityChart()" max-date="maxDate"></div>
+            </div>
+          </div>
+        </form>
+
+        <!-- HUMIDITY CHART FORM ON MOBILE -->
+        <form class="col s12 hide-on-large-only">
+          <div class="row">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
+              <input id="humidityChartDate" type="date" ng-model="humidityDate"
+                      ng-change="drawHumidityChart()" class="datepicker" required="true"/>
+            </div>
+
+            <a ng-click="drawHumidityChart()" class="refresh btn-floating btn-small waves-effect
+                                                      waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
+          </div>
+        </form>
+
+        <div ng-hide="loading" class="col s5 hide-on-small-only">
+          <div class="card-panel grey lighten-4 clearfix generalCard">
+            <span class="black-text">
+              <div class="row" ng-show="!loading">
+                <span class="col m4 s12 red-text center-align lighten-1">
+                  <span>Maximum</span>
+                  <h4>{{maximumHumidity}} %</h4>
+                </span>
+
+                <span class="col m4 s12 blue-text center-align lighten-1">
+                  <span>Minimum</span>
+                  <h4>{{minimumHumidity}} %</h4>
+                </span>
+
+                <span class="col m4 s12 green-text center-align lighten-1">
+                  <span>Average</span>
+                  <h4>{{averageHumidity | number: 2}} %</h4>
+                </span>
+              </div>
+            </span>
           </div>
         </div>
-
-        <canvas id="humidityChart" height="100"></canvas>
       </div>
+
+      <canvas id="humidityChart" ng-show="!loading && !empty" height="100"></canvas>
 
       <div class="center-align" ng-if="!loading && empty">
         <p class="text-grey lighten-1">There is no data to draw a chart</p>
@@ -239,22 +267,7 @@
     </div>
 
     <!-- DEW POINT TAB CONTENT -->
-    <div id="dew_point" ng-controller="dewPointController">
-      <div>
-        <form class="col s12">
-          <div class="row">
-            <div class="input-field col s8 m2 offset-m5 offset-s2">
-              <input id="dewPointChartDate" type="date" ng-model="date"
-                      ng-change="drawChart()" required="true"/>
-            </div>
-
-            <a ng-click="drawChart()" class="refresh btn-floating btn-small waves-effect
-                                             waves-light grey lighten-1 right">
-              <i class="material-icons">refresh</i>
-            </a>
-          </div>
-        </form>
-      </div>
+    <div id="dew_point">
 
       <div class="preloader-wrapper active" ng-if="loading">
         <div class="spinner-layer spinner-green-only">
@@ -268,24 +281,62 @@
         </div>
       </div>
 
-      <div ng-show="!loading && !empty">
-        <div class="center-align">
-          <div class="chip">
-            MIN: {{minimumDewPoint}} Cº
-          </div>
+      <div class="row" ng-show="!loading && !empty">
 
-          <div class="chip">
-            MAX: {{maximumDewPoint}} Cº
+        <h5 class="center-align">{{ dewPointChartDay }}</h5>
+
+        <form class="col s5 offset-s1 hide-on-med-and-down">
+          <div class="row">
+            <div class="input-field">
+              <div pickadate format="yyyy-mm-dd"
+                    ng-model="dewPointDate" ng-change="drawDewPointChart()" max-date="maxDate"></div>
+            </div>
+          </div>
+        </form>
+
+        <form class="col s12 hide-on-large-only">
+          <div class="row">
+            <div class="input-field col s8 m2 offset-m5 offset-s2">
+              <input id="dewPointChartDate" type="date" ng-model="dewPointDate"
+                      ng-change="drawDewPointChart()" class="datepicker" required="true"/>
+            </div>
+
+            <a ng-click="drawHumidityChart()" class="refresh btn-floating btn-small waves-effect
+                                                      waves-light grey lighten-1 right">
+              <i class="material-icons">refresh</i>
+            </a>
+          </div>
+        </form>
+
+        <div ng-hide="loading" class="col s5 hide-on-small-only">
+          <div class="card-panel grey lighten-4 clearfix generalCard">
+            <span class="black-text">
+              <div class="row" ng-show="!loading">
+                <span class="col m4 s12 red-text center-align lighten-1">
+                  <span>Maximum</span>
+                  <h4>{{maximumDewPoint}} Cº</h4>
+                </span>
+
+                <span class="col m4 s12 blue-text center-align lighten-1">
+                  <span>Minimum</span>
+                  <h4>{{minimumDewPoint}} Cº</h4>
+                </span>
+
+                <span class="col m4 s12 green-text center-align lighten-1">
+                  <span>Average</span>
+                  <h4>{{averageDewPoint | number: 2}} Cº</h4>
+                </span>
+              </div>
+            </span>
           </div>
         </div>
 
-        <canvas id="dewPointChart" height="100"></canvas>
+        <canvas id="dewPointChart" ng-show="!loading && !empty" height="100"></canvas>
 
         <div class="center-align" ng-if="!loading && empty">
           <p class="text-grey lighten-1">There is no data to draw a chart</p>
         </div>
       </div>
-
     </div>
 
   </body>
