@@ -18,19 +18,15 @@ Weather Logger front-end with AngularJS
 ### 1.2 Build
 
 1. Get the source typing the command:
-<br>
 **git clone https://github.com/geovannyAvelar/WeatherLogger-Front.git**
 
 2. Enter on project directory:
-<br>
 **cd WeatherLogger-Front**
 
 3. With Bower, install the dependencies:
-<br>
 **bower install**
 
 4. Move the dependencies to assets/components directory with Gulp:
-<br>
 **gulp**
 
 ## 2 License
